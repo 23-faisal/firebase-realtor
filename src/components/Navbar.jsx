@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(navigate);
 
   const pathMatchRoute = (route) => {
     if (route === location.pathname) return true;
