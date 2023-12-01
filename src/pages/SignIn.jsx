@@ -2,6 +2,10 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -10,13 +14,29 @@ const SignIn = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const { email, password } = formData;
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
+  };
+
+  const SignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential.user) {
+        navigate("/");
+      }
+    } catch (err) {
+      toast.error("Invalid Email or Password");
+    }
   };
 
   return (
@@ -32,7 +52,7 @@ const SignIn = () => {
         </div>
         {/* Form  */}
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form>
+          <form onSubmit={SignIn}>
             <input
               onChange={onChange}
               type="email"
