@@ -48,7 +48,6 @@ const SignUp = () => {
 
       navigate("/");
       toast.success("Sign up Successfully");
-      
     } catch (error) {
       toast.error("Something went wrong this time");
     }
