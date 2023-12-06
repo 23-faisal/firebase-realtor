@@ -1,12 +1,26 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 const Navbar = () => {
+  const [pageState, setPageState] = useState("Sign in");
   const location = useLocation();
   const navigate = useNavigate();
 
   const pathMatchRoute = (route) => {
     if (route === location.pathname) return true;
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setPageState("Profile");
+      } else {
+        setPageState("Sign in");
+      }
+    });
+  }, [auth]);
 
   return (
     <div className="bg-white border-b shadow-sm sticky top-0 z-50">
@@ -43,13 +57,13 @@ const Navbar = () => {
             </li>
             <li
               className={`cursor-pointer py-3 text-sm font-semibold border-b-[3px]  ${
-                pathMatchRoute("/sign-in")
+                pathMatchRoute("/sign-in") || pathMatchRoute("/profile")
                   ? "text-black border-b-red-500 "
                   : "text-gray-400 border-b-transparent"
               }`}
-              onClick={() => navigate("/sign-in")}
+              onClick={() => navigate("/profile")}
             >
-              Signin
+              {pageState}
             </li>
           </ul>
         </div>
