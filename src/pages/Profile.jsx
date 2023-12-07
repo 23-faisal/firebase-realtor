@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { FcHome } from "react-icons/fc";
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -92,6 +93,14 @@ const Profile = () => {
               </p>
             </div>
           </form>
+          <button
+            onClick={() => navigate("/create-listing")}
+            className="flex items-center justify-center uppercase  gap-2 w-full bg-blue-600  py-3 text-white rounded shadow-md hover:bg-blue-700 transition ease-in-out duration-150 hover:shadow-lg active:bg-blue-800"
+            type="submit"
+          >
+            <FcHome className="text-3xl bg-red-400 rounded-full p-1 border-2 " />
+            <p className="text-lg ">Sell or Rent Your Home</p>
+          </button>
         </div>
       </section>
     </>
