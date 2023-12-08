@@ -29,6 +29,30 @@ const CreateListing = () => {
     discountPrice,
   } = formData;
 
+  const OnChange = (e) => {
+    let boolean = null;
+    if (e.target.value === "false") {
+      boolean = false;
+    }
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+    //Files
+    if (e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: e.target.files,
+      }));
+    }
+    //Text/ Boolean/ Number
+    if (!e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.id]: boolean ?? e.target.value,
+      }));
+    }
+  };
+
   return (
     <main className="max-w-md p-2 mx-auto">
       <h1 className="text-3xl text-center mt-6 font-bold ">Create Listing </h1>
@@ -41,6 +65,7 @@ const CreateListing = () => {
             type="button"
             id="type"
             value="sell"
+            onClick={OnChange}
             className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
               type === "rent"
                 ? "bg-white text-black"
@@ -52,7 +77,8 @@ const CreateListing = () => {
           <button
             type="button"
             id="type"
-            value="sell"
+            value="rent"
+            onClick={OnChange}
             className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
               type === "sell"
                 ? "bg-white text-black"
@@ -68,6 +94,7 @@ const CreateListing = () => {
           type="text "
           id="name"
           value={name}
+          onChange={OnChange}
           placeholder="Name"
           maxLength="32"
           minLength="10"
@@ -84,6 +111,7 @@ const CreateListing = () => {
               type="number"
               id="bedrooms"
               value={bedrooms}
+              onChange={OnChange}
               min="1"
               max="50"
               required
@@ -96,6 +124,7 @@ const CreateListing = () => {
               type="number"
               id="bathrooms"
               value={bathrooms}
+              onChange={OnChange}
               min="1"
               max="50"
               required
@@ -113,6 +142,7 @@ const CreateListing = () => {
               type="button"
               id="parking"
               value={true}
+              onClick={OnChange}
               className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
                 !parking ? "bg-white text-black" : "bg-slate-600 text-white"
               } `}
@@ -123,6 +153,7 @@ const CreateListing = () => {
               type="button"
               id="parking"
               value={false}
+              onClick={OnChange}
               className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
                 parking ? "bg-white text-black" : "bg-slate-600 text-white"
               } `}
@@ -141,6 +172,7 @@ const CreateListing = () => {
               type="button"
               id="furnished"
               value={true}
+              onClick={OnChange}
               className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
                 !furnished ? "bg-white text-black" : "bg-slate-600 text-white"
               } `}
@@ -151,6 +183,7 @@ const CreateListing = () => {
               type="button"
               id="furnished"
               value={false}
+              onClick={OnChange}
               className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
                 furnished ? "bg-white text-black" : "bg-slate-600 text-white"
               } `}
@@ -167,6 +200,7 @@ const CreateListing = () => {
           type="text "
           id="address"
           value={address}
+          onChange={OnChange}
           placeholder="Address"
           rows="4"
           cols="50"
@@ -178,12 +212,13 @@ const CreateListing = () => {
         <p className="text-lg font-semibold ">Description</p>
         <textarea
           type="text "
-          id="address"
+          id="description"
           value={description}
-          placeholder="Description"
+          onChange={OnChange}
+          placeholder="Address"
           rows="4"
           cols="50"
-          className="w-full rounded px-4 py-2 text-xl text-gray-400 bg-white border border-gray-300 transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600  "
+          className="w-full rounded px-4 py-2 text-xl text-gray-400 bg-white border border-gray-300 transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6 "
           required
         />
 
@@ -196,6 +231,7 @@ const CreateListing = () => {
               type="button"
               id="offer"
               value={true}
+              onClick={OnChange}
               required={type}
               className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
                 !offer ? "bg-white text-black" : "bg-slate-600 text-white"
@@ -207,6 +243,7 @@ const CreateListing = () => {
               type="button"
               id="offer"
               value={false}
+              onClick={OnChange}
               className={` px-7 py-3  font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
                 offer ? "bg-white text-black" : "bg-slate-600 text-white"
               } `}
@@ -225,6 +262,7 @@ const CreateListing = () => {
               type="number"
               id="regularPrice"
               value={regularPrice}
+              onChange={OnChange}
               min="100"
               max="500000"
               required
@@ -247,6 +285,7 @@ const CreateListing = () => {
               type="number"
               id="discountPrice"
               value={discountPrice}
+              onChange={OnChange}
               min="1"
               max="5000"
               required={offer}
@@ -272,6 +311,7 @@ const CreateListing = () => {
             type="file"
             id="images"
             accept=".jpg,.png,.jpeg"
+            onChange={OnChange}
             multiple
             required
             className="w-full px-3 py-1.5 rounded text-gray-500 bg-white border border-gray-300 transition duration-150 ease-in-out focus:bg-white focus:border-slate-500"
