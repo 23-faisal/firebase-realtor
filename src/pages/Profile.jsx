@@ -30,17 +30,21 @@ const Profile = () => {
   };
 
   const OnSubmit = async () => {
-    if (auth.currentUser.displayName !== name) {
-      // Update display name in firebase auth
-      await updateProfile(auth.currentUser, {
-        displayName: name,
-      });
-      // Update name in firestore
-      const docRef = doc(db, "users", auth.currentUser.id);
-      await updateDoc(docRef, {
-        name,
-      });
-      toast.success("Profile details updated");
+    try {
+      if (auth.currentUser.displayName !== name) {
+        // Update display name in firebase auth
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+        // Update name in firestore
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(docRef, {
+          name,
+        });
+      }
+      toast.success("Profile details updated successfully");
+    } catch (error) {
+      toast.error("Could not update profile details");
     }
   };
 
@@ -58,7 +62,7 @@ const Profile = () => {
               disabled={!changeDetail}
               onChange={OnChangeInput}
               className={`  mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out  ${
-                changeDetail && "bg-red-300 "
+                changeDetail && "bg-red-200 focus:bg-red-300"
               }`}
             />
 
