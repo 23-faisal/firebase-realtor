@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { auth } from "../firebase/firebase.config";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Header = () => {
+  const [pageState, setPageState] = useState("Sign in");
   const location = useLocation();
   const navigate = useNavigate();
   const pathMatch = (route) => {
     if (route === location.pathname) return true;
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setPageState("Profile");
+      } else {
+        setPageState("Sign in");
+      }
+    });
+  }, [auth]);
 
   return (
     <div className="bg-white border-b shadow-sm sticky top-0 z-50 ">
@@ -39,12 +53,12 @@ const Header = () => {
             </li>
             <li
               className={`py-3 text-sm font-semibold border-b-[3px] transition duration-200 ease-in-out ${
-                pathMatch("/sign-in")
+                pathMatch("/sign-in") || pathMatch("/profile")
                   ? "text-black border-b-red-500 "
-                  : "text-gray-400 border-b-transparent "
+                  : "border-transparent text-gray-400"
               }`}
             >
-              <Link to={"/sign-in"}>Sign in</Link>
+              <Link to={"/profile"}>{pageState}</Link>
             </li>
           </ul>
         </div>
