@@ -101,7 +101,7 @@ const SignUp = () => {
               )}
             </div>
 
-            <div className="md:flex  md:items-center md:justify-between md:mt-3 mt-3">
+            <div className="md:flex  md:items-center md:justify-between md:mt-0 mt-3">
               <p className="text-md">
                 <span className="text-gray-500 ">Already have an account?</span>
                 <Link
@@ -121,7 +121,7 @@ const SignUp = () => {
               </p>
             </div>
             <button
-              className="w-full py-3 my-6 bg-blue-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900"
+              className="w-full py-3 bg-blue-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900"
               type="submit"
             >
               sign up

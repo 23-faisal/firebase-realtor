@@ -66,7 +66,7 @@ const SignIn = () => {
               <input
                 className="w-full rounded-md px-2 py-4 text-xl text-gray-700 bg-white border-gray-300 transition duration-150 ease-in-out relative "
                 type={showPassword ? "password" : "text"}
-                placeholder="Passowrd..."
+                placeholder="Password..."
                 id="password"
                 value={password}
                 onChange={OnChange}
@@ -85,7 +85,7 @@ const SignIn = () => {
               )}
             </div>
 
-            <div className="md:flex  md:items-center md:justify-between md:mt-3 mt-3">
+            <div className="md:flex  md:items-center md:justify-between  mt-3">
               <p className="text-md">
                 <span className="text-gray-500 ">
                   Don&apos;t have an account?
@@ -107,7 +107,7 @@ const SignIn = () => {
               </p>
             </div>
             <button
-              className="w-full py-3 my-6 bg-blue-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900"
+              className="w-full py-3  bg-blue-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900"
               type="submit"
             >
               sign in

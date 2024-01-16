@@ -10,6 +10,8 @@ const SignInWithGoogle = () => {
   const SignInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      toast.success("Sign up with google successfully");
+      navigate("/");
       const user = result.user;
 
       // Check for the user
@@ -22,9 +24,6 @@ const SignInWithGoogle = () => {
           email: user.email,
           timestamp: serverTimestamp(),
         });
-
-        toast.success("Sign up with google successfully");
-        navigate("/");
       }
     } catch (err) {
       toast.error("Could not authorized with google");
@@ -35,7 +34,7 @@ const SignInWithGoogle = () => {
       <button
         type="button"
         onClick={SignInWithGoogle}
-        className="flex items-center justify-center gap-2 w-full py-3 my-6 bg-red-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-red-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-red-900"
+        className="flex items-center justify-center gap-2 w-full py-3 bg-red-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-red-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-red-900"
       >
         <FcGoogle className="rounded-full bg-white text-xl " />
         Sign in with google
