@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SignInWithGoogle from "../components/SignInWithGoogle";
+import { auth, db } from "../firebase/firebase.config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { serverTimestamp, setDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -20,6 +25,29 @@ const SignUp = () => {
     });
   };
 
+  const OnSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      updateProfile(auth.currentUser, {
+        displayName: username,
+      });
+      const user = userCredential.user;
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+      toast.success("Sign up was success full");
+      navigate("/");
+    } catch (err) {
+      toast.error("Something went wrong!!!");
+    }
+  };
+
   return (
     <section className="max-w-6xl mx-auto px-3">
       <h1 className="text-3xl mt-6 text-center font-bold  ">Sign Up</h1>
@@ -32,7 +60,7 @@ const SignUp = () => {
           />
         </div>
         <div className="w-full md:w-[33%] lg:w-[50%] md:ml-12 lg:ml-20 ">
-          <form className="flex flex-col  gap-6">
+          <form onSubmit={OnSubmit} className="flex flex-col  gap-6">
             <input
               className="w-full rounded-md px-2 py-4 text-xl text-gray-700 bg-white border-gray-300 transition duration-150 ease-in-out"
               type="text"
@@ -72,36 +100,37 @@ const SignUp = () => {
                 />
               )}
             </div>
+
+            <div className="md:flex  md:items-center md:justify-between md:mt-3 mt-3">
+              <p className="text-md">
+                <span className="text-gray-500 ">Already have an account?</span>
+                <Link
+                  className="text-red-500 ml-2 hover:text-red-700 transition duration-150 ease-in-out "
+                  to="/sign-in"
+                >
+                  Sign in
+                </Link>
+              </p>
+              <p className="text-md mt-3 sm:mt-0">
+                <Link
+                  className="text-blue-500 hover:text-blue-700 transition duration-150 ease-in-out"
+                  to={"/forgot-password"}
+                >
+                  Forgot Password
+                </Link>
+              </p>
+            </div>
+            <button
+              className="w-full py-3 my-6 bg-blue-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900"
+              type="submit"
+            >
+              sign up
+            </button>
+            <div className="flex items-center   before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
+              <p className="text-center font-semibold mx-4">OR</p>
+            </div>
+            <SignInWithGoogle />
           </form>
-          <div className="md:flex  md:items-center md:justify-between md:mt-3 mt-3">
-            <p className="text-md">
-              <span className="text-gray-500 ">Already have an account?</span>
-              <Link
-                className="text-red-500 ml-2 hover:text-red-700 transition duration-150 ease-in-out "
-                to="/sign-in"
-              >
-                Sign in
-              </Link>
-            </p>
-            <p className="text-md mt-3 sm:mt-0">
-              <Link
-                className="text-blue-500 hover:text-blue-700 transition duration-150 ease-in-out"
-                to={"/forgot-password"}
-              >
-                Forgot Password
-              </Link>
-            </p>
-          </div>
-          <button
-            className="w-full py-3 my-6 bg-blue-600 text-xl text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900"
-            type="submit"
-          >
-            sign up
-          </button>
-          <div className="flex items-center   before:border-t before:flex-1 before:border-gray-300 after:border-t after:flex-1 after:border-gray-300">
-            <p className="text-center font-semibold mx-4">OR</p>
-          </div>
-          <SignInWithGoogle />
         </div>
       </div>
     </section>
