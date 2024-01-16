@@ -78,7 +78,7 @@ const Profile = () => {
             id="email"
             value={email}
           />
-          <div className="flex items-center justify-between  whitespace-nowrap text-lg sm:text-md">
+          <div className="flex flex-col md:flex md:flex-row md:items-center md:justify-between  whitespace-nowrap text-lg sm:text-md">
             <p className="flex items-center mb-6 sm:mb-0 gap-2">
               Do your want to change your name?
               <span
