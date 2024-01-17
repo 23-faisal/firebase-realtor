@@ -2,8 +2,9 @@ import { useState } from "react";
 import { auth, db } from "../firebase/firebase.config";
 import { signOut, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
+import { FcHome } from "react-icons/fc";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -99,6 +100,10 @@ const Profile = () => {
             </p>
           </div>
         </form>
+        <Link to={'/create-listing'} className="w-full flex items-center justify-center gap-2 mt-6 py-3  bg-blue-600 text-md  text-white font-semibold uppercase rounded-lg hover:bg-blue-700 transition duration-200 ease-in-out hover:shadow-lg  active:bg-blue-900">
+          <FcHome className="bg-white rounded-full " />
+          <span>sell or rent home</span>
+        </Link>
       </div>
     </section>
   );
